@@ -7,39 +7,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Section {
-  id        Int        @id @default(autoincrement())
-  name      String
-  topics    Topic[]
-  questions Question[]
-}
-
-model Topic {
-  id        Int        @id @default(autoincrement())
-  section   Section    @relation(fields: [sectionId], references: [id])
-  sectionId Int
-  name      String
-  questions Question[]
-}
-
-model Question {
+model question {
   id          Int           @id @default(autoincrement())
-  section     Section       @relation(fields: [sectionId], references: [id])
   sectionId   Int
-  topic       Topic         @relation(fields: [topicId], references: [id])
   topicId     Int
   text        String        @db.Text
   choices     String        @db.Text
   answerIndex Int
-  wrongs      WrongAnswer[]
+  section     section       @relation(fields: [sectionId], references: [id], map: "Question_sectionId_fkey")
+  topic       topic         @relation(fields: [topicId], references: [id], map: "Question_topicId_fkey")
+  wronganswer wronganswer[]
+
+  @@index([sectionId], map: "Question_sectionId_fkey")
+  @@index([topicId], map: "Question_topicId_fkey")
 }
 
-model WrongAnswer {
+model section {
+  id       Int        @id @default(autoincrement())
+  name     String
+  question question[]
+  topic    topic[]
+}
+
+model topic {
+  id        Int        @id @default(autoincrement())
+  sectionId Int
+  name      String
+  question  question[]
+  section   section    @relation(fields: [sectionId], references: [id], map: "Topic_sectionId_fkey")
+
+  @@index([sectionId], map: "Topic_sectionId_fkey")
+}
+
+model user {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique(map: "User_email_key")
+  name      String
+  password  String
+  role      user_role @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+}
+
+model wronganswer {
   id           Int      @id @default(autoincrement())
-  question     Question @relation(fields: [questionId], references: [id])
   questionId   Int
   chosenIndex  Int
   correctIndex Int
   lastSeenAt   DateTime @default(now())
   timesWrong   Int      @default(1)
+  question     question @relation(fields: [questionId], references: [id], map: "WrongAnswer_questionId_fkey")
+
+  @@index([questionId], map: "WrongAnswer_questionId_fkey")
+}
+
+enum user_role {
+  USER
+  ADMIN
 }

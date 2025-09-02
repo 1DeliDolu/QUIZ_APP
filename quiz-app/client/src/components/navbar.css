@@ -1,0 +1,94 @@
+/* Bootstrap navbar custom styles */
+.navbar {
+  display: flex !important;
+  visibility: visible !important;
+  height: auto !important;
+  width: 100% !important;
+}
+
+/* Navbar'ı desktop'ta her zaman göster */
+@media (min-width: 992px) {
+  .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+  }
+}
+
+/* Mobile'da collapse davranışını koru */
+@media (max-width: 991.98px) {
+  .navbar-collapse:not(.show) {
+    display: none;
+  }
+}
+
+.navbar-brand {
+  font-weight: 700 !important;
+  color: #0d6efd !important;
+}
+
+.sidebar-trigger {
+  border: 1px solid #dee2e6 !important;
+  background: white !important;
+  padding: 0.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-radius: 0.375rem !important;
+  transition: all 0.15s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+.sidebar-trigger:hover {
+  background-color: #f8f9fa !important;
+  border-color: #adb5bd !important;
+}
+
+.sidebar-trigger svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+  color: #495057 !important;
+}
+
+/* Sidebar visibility fix */
+[data-sidebar="sidebar"] {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  height: 100vh !important;
+  width: var(--sidebar-width, 16rem) !important;
+  z-index: 1030 !important;
+  transform: translateX(-100%) !important;
+  transition: transform 0.2s ease-in-out !important;
+}
+
+[data-sidebar="sidebar"][data-state="open"] {
+  transform: translateX(0) !important;
+}
+
+/* Sidebar ile navbar arası geçişler */
+.sidebar-overlay {
+  z-index: 1040;
+}
+
+/* Mobile responsive düzenlemeler */
+@media (max-width: 768px) {
+  .d-flex.gap-2 {
+    gap: 0.5rem !important;
+  }
+
+  .form-control {
+    min-width: 150px;
+  }
+}
+
+/* Bootstrap ile Tailwind uyumluluğu */
+.btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Sidebar trigger button özel stili */
+.navbar-toggler.sidebar-trigger:focus {
+  box-shadow: none;
+}
