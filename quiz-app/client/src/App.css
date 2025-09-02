@@ -1,0 +1,10 @@
+/* minimal styles copied from root */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+}

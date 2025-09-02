@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Section {
+  id        Int        @id @default(autoincrement())
+  name      String
+  topics    Topic[]
+  questions Question[]
+}
+
+model Topic {
+  id        Int        @id @default(autoincrement())
+  section   Section    @relation(fields: [sectionId], references: [id])
+  sectionId Int
+  name      String
+  questions Question[]
+}
+
+model Question {
+  id          Int           @id @default(autoincrement())
+  section     Section       @relation(fields: [sectionId], references: [id])
+  sectionId   Int
+  topic       Topic         @relation(fields: [topicId], references: [id])
+  topicId     Int
+  text        String        @db.Text
+  choices     String        @db.Text
+  answerIndex Int
+  wrongs      WrongAnswer[]
+}
+
+model WrongAnswer {
+  id           Int      @id @default(autoincrement())
+  question     Question @relation(fields: [questionId], references: [id])
+  questionId   Int
+  chosenIndex  Int
+  correctIndex Int
+  lastSeenAt   DateTime @default(now())
+  timesWrong   Int      @default(1)
+}
