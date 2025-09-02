@@ -1,6 +1,4 @@
-import { ReactNode, useState } from 'react'
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/AppSidebar"
+import { ReactNode } from 'react'
 import { TopNavbar } from "@/components/TopNavbar"
 
 interface AppLayoutProps {
@@ -8,17 +6,14 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-    const [sidebarOpen, setSidebarOpen] = useState(false)
-
     return (
-        <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
-            <AppSidebar />
-            <SidebarInset>
+        <div className="min-h-screen bg-background">
+            <header className="border-b bg-background sticky top-0 z-50">
                 <TopNavbar />
-                <main className="flex-1 p-4 overflow-auto">
-                    {children}
-                </main>
-            </SidebarInset>
-        </SidebarProvider>
+            </header>
+            <main className="flex-1 p-4">
+                {children}
+            </main>
+        </div>
     )
 }
